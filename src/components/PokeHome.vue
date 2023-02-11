@@ -52,10 +52,11 @@
               <v-col cols="8">
                 <h1>{{ name_pokemon(clicked_pokemon) }}</h1>
                 <v-chip
-                  class="mr-2"
+                  class="mx-1 my-3"
                   v-for="pokeType in clicked_pokemon.types"
                   :key="pokeType.slot"
-                  >{{ pokeType.type.name }}
+                >
+                  {{ pokeType.type.name }}
                 </v-chip>
                 <v-divider class="my-4" />
                 <v-chip class="mr-2">
@@ -73,7 +74,17 @@
               </v-col>
             </v-row>
             <!-- //////////////////////////////////////////////// -->
-            <h1>Skills</h1>
+
+            <div class="skills">
+              <h1>Skills</h1>
+            </div>
+            <v-chip
+              class="mr-3"
+              v-for="pokeStatus in clicked_pokemon.stats"
+              :key="pokeStatus.name"
+            >
+              {{ pokeStatus.stat.name + ": " + pokeStatus.base_stat }}</v-chip
+            >
           </v-container>
         </v-card>
       </v-dialog>
@@ -119,20 +130,6 @@ export default {
         this.show_dialog = !this.show_dialog
       })
     },
-
-    filter_skills(pokeSkill) {
-      return pokeSkill.moves.filter((skillParm) => {
-        var include = false
-        // version_group_details = Object from poke API
-        for (let version of skillParm.version_group_details) {
-          if (version.version_group_details == "sword-shield") {
-            include = true
-          }
-          // console.log(version)
-        }
-        return include
-      })
-    },
   },
 
   computed: {
@@ -151,8 +148,13 @@ export default {
   margin: 100px auto;
 }
 
+.skills {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
 div {
-  animation: fromTop 0.7s 0.6s backwards;
+  animation: fromTop 0.7s 0.4s backwards;
 }
 
 @keyframes fromTop {
